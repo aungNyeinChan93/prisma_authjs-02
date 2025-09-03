@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 const RegisterForm = () => {
@@ -5,7 +6,7 @@ const RegisterForm = () => {
     <React.Fragment>
       <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8 shadow-xl border border-indigo-400/50 rounded-2xl">
         <div className="mx-auto max-w-lg text-center">
-          <h1 className="text-2xl font-bold sm:text-3xl">Welcome Back!</h1>
+          <h1 className="text-2xl font-bold sm:text-3xl">Welcome Buddy!</h1>
           <p className="mt-4 text-gray-600">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Et libero
             nulla eaque error neque ipsa culpa autem, at itaque nostrum!
@@ -120,16 +121,16 @@ const RegisterForm = () => {
 
           <div className="flex items-center justify-between">
             <p className="text-sm text-gray-600">
-              No account yet?
-              <a href="#" className="underline">
-                Create one
-              </a>
+              You have already account
+              <Link href="/auth/login" className="underline ms-2">
+                Login Here
+              </Link>
             </p>
             <button
               className="inline-block rounded-lg bg-purple-600 px-5 py-3 text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
               type="submit"
             >
-              Sign In
+              Sign Up
             </button>
           </div>
         </form>
