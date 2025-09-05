@@ -13,7 +13,7 @@ import prisma from "@/lib/db/prisma";
 export const getUsers = async () => {
   const users = await prisma.user.findMany({
     orderBy: { created_at: "desc" },
-    select: { id: true, name: true, email: true, password: true },
+    select: { id: true, name: true, email: true, password: true, role: true },
   });
   return users;
 };
@@ -45,6 +45,7 @@ const DashboardTable = async () => {
                 <TableCell className="font-sans text-sm ">
                   {d.password}
                 </TableCell>
+                <TableCell className="font-sans text-sm ">{d.role}</TableCell>
               </TableRow>
             ))}
           </TableBody>

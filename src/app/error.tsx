@@ -17,7 +17,7 @@ const HomeErrorPage = ({ error, reset }: Props) => {
     <React.Fragment>
       <main className="w-full h-screen bg-slate-900 p-4 flex justify-center items-center">
         <div className="flex flex-col justify-center items-center gap-5">
-          <p className=" text-2xl text-red-50 tracking-wider font-semibold p-2 ">
+          <p className=" text-2xl text-red-500 tracking-wider font-semibold p-2 ">
             {error && error?.message}
           </p>
           <button

@@ -1,6 +1,11 @@
+import { Session } from "next-auth";
 import React from "react";
 
-const Banner = () => {
+interface Props {
+  session?: Session | null;
+}
+
+const Banner = ({ session }: Props) => {
   return (
     <React.Fragment>
       <section className="bg-white lg:grid lg:h-screen lg:place-content-center">
@@ -13,9 +18,11 @@ const Banner = () => {
             </h1>
 
             <p className="mt-4 text-base text-pretty text-gray-700 sm:text-lg/relaxed">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eaque,
-              nisi. Natus, provident accusamus impedit minima harum corporis
-              iusto.
+              {session && (
+                <>
+                  <pre>{JSON.stringify(session, null, 2)}</pre>
+                </>
+              )}
             </p>
 
             <div className="mt-4 flex justify-center gap-4 sm:mt-6">

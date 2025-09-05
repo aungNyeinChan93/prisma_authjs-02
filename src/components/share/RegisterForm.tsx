@@ -1,19 +1,35 @@
+"use client";
+
+import { registerAction } from "@/actions/auth-action";
 import Link from "next/link";
-import React from "react";
+import React, { useActionState } from "react";
 
 const RegisterForm = () => {
+  const [state, formAction] = useActionState(registerAction, {
+    success: true,
+    error: "",
+  });
   return (
     <React.Fragment>
-      <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8 shadow-xl border border-indigo-400/50 rounded-2xl">
+      <div className="mx-auto min-w-[500px] max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8 shadow-xl border border-indigo-400/50 rounded-2xl">
         <div className="mx-auto max-w-lg text-center">
           <h1 className="text-2xl font-bold sm:text-3xl">Welcome Buddy!</h1>
-          <p className="mt-4 text-gray-600">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Et libero
-            nulla eaque error neque ipsa culpa autem, at itaque nostrum!
+          <p
+            className={`mt-4 text-gray-600 ${
+              !state?.success && "!text-red-600"
+            }`}
+          >
+            {!state?.success
+              ? `${state?.error as string}`
+              : `Lorem ipsum dolor sit amet consectetur adipisicing elit. Et libero
+            nulla eaque error neque ipsa culpa autem, at itaque nostrum!`}
           </p>
         </div>
 
-        <form className="mx-auto mb-0 mt-8 max-w-md space-y-4" action="#">
+        <form
+          className="mx-auto mb-0 mt-8 max-w-md space-y-4"
+          action={formAction}
+        >
           <div>
             <label className="sr-only" htmlFor="email">
               Email
@@ -21,7 +37,9 @@ const RegisterForm = () => {
             <div className="relative">
               <input
                 placeholder="Enter your email"
-                className="w-full rounded-lg border-gray-300 p-4 pe-12 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent"
+                className={`${
+                  !state?.success && "border !border-red-600"
+                } w-full rounded-lg border-gray-300 p-4 pe-12 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent`}
                 id="email"
                 type="email"
                 name="email"
@@ -52,7 +70,9 @@ const RegisterForm = () => {
             <div className="relative">
               <input
                 placeholder="Enter your password"
-                className="w-full rounded-lg border-gray-300 p-4 pe-12 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent"
+                className={`${
+                  !state?.success && "border !border-red-600"
+                } w-full rounded-lg border-gray-300 p-4 pe-12 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent`}
                 id="password"
                 type="password"
                 name="password"

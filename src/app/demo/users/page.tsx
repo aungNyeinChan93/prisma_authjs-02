@@ -4,7 +4,13 @@ import Link from "next/link";
 import React from "react";
 
 const DemoUserPage = async () => {
-  const users = await prisma.user.findMany({ orderBy: { created_at: "desc" } });
+  const users = await prisma.user.findMany({
+    orderBy: { created_at: "desc" },
+    include: {
+      Profile: true,
+    },
+    take: 10,
+  });
   return (
     <React.Fragment>
       <main>

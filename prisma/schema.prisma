@@ -4,11 +4,6 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
-generator client {
-  provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
-}
-
 // generator client {
 //   provider = "prisma-client-js"
 // }
@@ -18,10 +13,30 @@ generator client {
 //   url      = env("DATABASE_URL")
 // }
 
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+/**
+ * ---------------------ENUMS-------------------------
+ */
+
+enum Role {
+  guest
+  user
+  admin
+  owner
+}
+
+/**
+ * ---------------------Models-------------------------
+ */
 
 model Category {
   id          String  @id @default(cuid())
@@ -30,14 +45,28 @@ model Category {
 }
 
 model User {
-  id       String  @id @default(cuid())
-  name     String?
-  email    String? @unique
-  password String?
-
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  id             String   @id @default(cuid())
+  name           String?
+  email          String?  @unique
+  password       String?
+  role           Role?    @default(guest)
+  created_at     DateTime @default(now())
+  updated_at     DateTime @updatedAt
+  Profile        Profile?
+  authProviderId String?
 
   @@unique([id, email])
+  @@index([email])
   @@map("users")
+}
+
+model Profile {
+  id      String  @id @default(cuid())
+  name    String?
+  avator  String?
+  bio     String  @db.Text
+  user    User    @relation(fields: [user_id], references: [id])
+  user_id String  @unique
+
+  @@map("profiles")
 }

@@ -1,12 +1,18 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
+import { signOutAction } from "@/actions/actions";
+import { Session } from "next-auth";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useState } from "react";
 
-const Navbar = () => {
+interface Props {
+  session?: Session | null;
+}
+
+const Navbar = ({ session }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
 
   function toggleMenu() {
@@ -84,18 +90,45 @@ const Navbar = () => {
 
           {/* Right actions */}
           <div className="flex max-lg:ml-auto space-x-4">
-            <button
-              type="button"
-              className="px-4 py-2 text-sm rounded-full font-medium cursor-pointer tracking-wide text-slate-900 border border-gray-400 bg-transparent hover:bg-gray-50 transition-all"
-            >
-              <Link href={"/auth/login"}>Login</Link>
-            </button>
-            <button
-              type="button"
-              className="px-4 py-2 text-sm rounded-full font-medium cursor-pointer tracking-wide text-white border border-blue-600 bg-blue-600 hover:bg-blue-700 transition-all"
-            >
-              <Link href={"/auth/register"}>Sign Up</Link>
-            </button>
+            {!session && (
+              <>
+                <button
+                  type="button"
+                  className="px-4 py-2 text-sm rounded-full font-medium cursor-pointer tracking-wide text-slate-900 border border-gray-400 bg-transparent hover:bg-gray-50 transition-all"
+                >
+                  <Link href={"/api/auth/signin"}>Login</Link>
+                </button>
+                <button
+                  type="button"
+                  className="px-4 py-2 text-sm rounded-full font-medium cursor-pointer tracking-wide text-white border border-blue-600 bg-blue-600 hover:bg-blue-700 transition-all"
+                >
+                  <Link href={"/auth/register"}>Sign Up</Link>
+                </button>
+              </>
+            )}
+            {session && (
+              <>
+                <form action={signOutAction}>
+                  <button
+                    type="submit"
+                    className="px-4 py-2 text-sm rounded-full font-medium cursor-pointer tracking-wide text-slate-900 border border-gray-400 bg-transparent hover:bg-gray-50 transition-all"
+                  >
+                    Sign Out
+                  </button>
+                </form>
+              </>
+            )}
+
+            {/* avator */}
+            {session && (
+              <>
+                <p className="w-10 p-1  h-10 bg-yellow-400   rounded-full text-center flex items-center justify-center">
+                  <span className="text-xs overflow-hidden">
+                    {session?.user?.name}
+                  </span>
+                </p>
+              </>
+            )}
 
             {/* Open button */}
             <button
